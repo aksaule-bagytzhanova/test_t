@@ -14,6 +14,7 @@ Env.read_env()
 
 SECRET_KEY = env.str(var='SECRET_KEY')
 DEBUG = env.bool(var='DEBUG')
+AUTH_USER_MODEL = 'api.User'
 ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = DEFAULT_APPS
 MIDDLEWARE = DEFAULT_MIDDLEWARE
@@ -36,4 +37,10 @@ MEDIA_URL = '/images/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+
+}
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
