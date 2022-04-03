@@ -31,7 +31,7 @@ class TaskSerializerList(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ('title', 'descriptions', 'executor', 'status', 'deadline')
+        fields = ('title', 'description', 'executor', 'status', 'deadline')
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -41,11 +41,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializerList(serializers.ModelSerializer):
-    tasks = serializers.SlugField()
+    organization = serializers.SlugField()
 
     class Meta:
         model = Project
-        fields = ('name', 'descriptions', 'status', 'tasks')
+        fields = ('name', 'description', 'status', 'deadline', 'organization')
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -69,8 +69,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class OrganizationSerializerList(serializers.ModelSerializer):
-    project = serializers.SlugField()
+    admin = serializers.SlugField()
 
     class Meta:
         model = Organization
-        fields = ('name', 'project')
+        fields = ('name', 'admin')

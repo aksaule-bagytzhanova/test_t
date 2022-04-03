@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
         all_permissions = Permission.objects.all()
         root_admin_perms = all_permissions
-        admin_perms = all_permissions.filter(content_type__name__in=
+        admin_perms = all_permissions.filter(content_type__model__in=
                                              ['task', 'project',
                                               'organization'])
         worker_perms = all_permissions.filter(codename__in=
@@ -18,6 +18,9 @@ class Command(BaseCommand):
                                                'view_task', 'view_project',
                                                'view_organization'])
 
-        root_admin_g.permissions.add(root_admin_perms)
-        admin_g.permissions.add(admin_perms)
-        worker_g.permissions.add(worker_perms)
+        for p in root_admin_perms:
+            root_admin_g.permissions.add(p)
+        for p in admin_perms:
+            admin_g.permissions.add(p)
+        for p in worker_perms:
+            worker_g.permissions.add(p)

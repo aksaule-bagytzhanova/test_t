@@ -93,21 +93,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return token
 
 
-class Task(models.Model):
-    STATUS = (
-        ('ON HOLD', 'ON HOLD'),
-        ('PROCESS', 'PROCESS'),
-        ('DONE', 'DONE')
-    )
-    title = models.CharField(max_length=256, unique=True)
-    descriptions = models.TextField()
+class Organization(models.Model):
+    name = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
-    executor = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(max_length=256, choices=STATUS)
-    deadline = models.DateTimeField()
+    admin = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Project(models.Model):
@@ -117,21 +109,29 @@ class Project(models.Model):
         ('FINISHED', 'FINISHED')
     )
     name = models.CharField(max_length=256, unique=True)
-    descriptions = models.TextField()
+    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    tasks = models.ForeignKey(Task, on_delete=models.CASCADE)
     status = models.CharField(max_length=256, choices=STATUS)
     deadline = models.DateTimeField()
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 
-class Organization(models.Model):
-    name = models.CharField(max_length=256)
+class Task(models.Model):
+    STATUS = (
+        ('ON HOLD', 'ON HOLD'),
+        ('PROCESS', 'PROCESS'),
+        ('DONE', 'DONE')
+    )
+    title = models.CharField(max_length=256, unique=True)
+    description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    admin = models.ForeignKey(User, on_delete=models.CASCADE)
+    executor = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=256, choices=STATUS)
+    deadline = models.DateTimeField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.title
